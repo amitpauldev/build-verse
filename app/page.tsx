@@ -1,11 +1,11 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import React from "react";
+import FeaturedSection from "@/components/landingPage/FeaturedSection";
+import HeroSection from "@/components/landingPage/HeroSection";
 
 const Home = () => {
 	return (
 		<div>
-			<h1>Hello</h1>
+			<HeroSection />
+			<FeaturedSection />
 		</div>
 	);
 };
