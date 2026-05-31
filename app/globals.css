@@ -5,8 +5,6 @@
 /* @custom-variant dark (&:is(.dark *)); */
 
 :root {
-	/* BuildVerse Palette */
-
 	/* Main Brand */
 	--primary: oklch(0.63 0.26 300); /* Purple #8B5CF6 */
 	--secondary: oklch(0.61 0.22 275); /* Indigo #6366F1 */
@@ -206,5 +204,10 @@
 	/* Section header with count */
 	.section-header-with-count {
 		@apply flex items-center justify-between mb-6;
+	}
+
+	/* Gradient text for highlights */
+	.gradient-text {
+		@apply bg-linear-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
 	}
 }

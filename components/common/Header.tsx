@@ -1,9 +1,21 @@
+"use client";
+
 import Link from "next/link";
 import Logo from "./Logo";
-import { CompassIcon, HomeIcon, SparklesIcon } from "lucide-react";
+import {
+	CompassIcon,
+	HomeIcon,
+	LoaderIcon,
+	SparklesIcon,
+	UserIcon,
+} from "lucide-react";
 import { Button } from "../ui/button";
 
+import { Show, SignUpButton, SignInButton, UserButton } from "@clerk/react";
+import { Suspense } from "react";
+
 const Header = () => {
+	const isSignedIn = false; // Placeholder for authentication state
 	return (
 		<header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 overflow-hidden">
 			<div className="wrapper px-12">
@@ -28,17 +40,29 @@ const Header = () => {
 					</nav>
 
 					<div className="flex items-center gap-3">
-						<Button variant="outline" className="border-none bg-transparent">
-							Sign In
-						</Button>
-						<Button>Sign Up</Button>
-
-						<Button asChild>
-							<Link href="/submit">
-								<SparklesIcon className="size-4" />
-								Submit Project
-							</Link>
-						</Button>
+						<Suspense
+							fallback={
+								<div>
+									<LoaderIcon className="size-4 animate-spin text-white" />
+								</div>
+							}
+						>
+							<Show when="signed-out">
+								<SignInButton />
+								<SignUpButton>
+									<Button>Sign Up</Button>
+								</SignUpButton>
+							</Show>
+							<Show when="signed-in">
+								<Link href="submit">
+									<Button variant="outline" size="sm">
+										<SparklesIcon className="size-4 mr-2" />
+										<span>Share Project</span>
+									</Button>
+								</Link>
+								<UserButton />
+							</Show>
+						</Suspense>
 					</div>
 				</div>
 			</div>
