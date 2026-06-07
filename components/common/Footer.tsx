@@ -1,6 +1,8 @@
 import Logo from "./Logo";
 
-export default function Footer() {
+export default async function Footer() {
+	"use cache";
+
 	return (
 		<footer className="border-t border-border bg-background">
 			<div className="wrapper px-10 py-12">
@@ -94,7 +96,7 @@ export default function Footer() {
 				{/* Bottom Bar */}
 				<div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-sm text-muted-foreground md:flex-row">
 					<p>© {new Date().getFullYear()} BuildVerse. All rights reserved.</p>
-
+					{/* "use cache" is used to cache the component because it's not dynamic content like new Data() */}
 					<p>Built for creators, powered by community.</p>
 				</div>
 			</div>
