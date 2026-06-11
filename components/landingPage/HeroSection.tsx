@@ -9,6 +9,7 @@ import {
 	UsersIcon,
 } from "lucide-react";
 import StatsCard from "./StatsCard";
+import { SparklesText } from "../ui/sparkles-text";
 
 export const LiveBadge = () => {
 	return (
@@ -56,8 +57,8 @@ const HeroSection = () => {
 					<h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 max-w-5xl">
 						Show What You've <span className="gradient-text">Built</span>
 						, <br />
-						Discover What's
-						<span className="gradient-text"> Launching</span>
+						Discover What's{" "}
+						<SparklesText className=" gradient-text">Launching</SparklesText>
 					</h1>
 
 					<p className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl leading-relaxed">

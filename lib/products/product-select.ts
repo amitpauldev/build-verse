@@ -15,10 +15,8 @@ export async function getFeaturedProducts() {
 }
 
 export async function getAllProducts() {
-	const productsData = await db
-		.select()
-		.from(products)
-		.where(eq(products.status, "approved"));
+	const productsData = await db.select().from(products);
+	// .where(eq(products.status, "approved"));
 	return productsData;
 }
 

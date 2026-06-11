@@ -4,25 +4,6 @@ import ProductCard from "../Products/ProductCard";
 import EmptyState from "../common/EmptyState";
 import { getRecentlyAddedProducts } from "@/lib/products/product-select";
 
-const recentlyLauncedProducts: any[] = [
-	// {
-	// 	id: 1,
-	// 	title: "ParityKit",
-	// 	description: "A tool for creating and sharing AI prompts",
-	// 	tags: ["AI", "Prompts", "Tools"],
-	// 	votes: 493,
-	// 	isFeatured: true,
-	// },
-	// {
-	// 	id: 2,
-	// 	title: "ParityKit",
-	// 	description: "A tool for creating and sharing AI prompts",
-	// 	tags: ["AI", "Prompts", "Tools"],
-	// 	votes: 493,
-	// 	isFeatured: true,
-	// },
-];
-
 const RecentlyLauncedProducts = async () => {
 	const recentlyLauncedProducts = await getRecentlyAddedProducts();
 
