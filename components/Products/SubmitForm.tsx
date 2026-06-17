@@ -1,14 +1,19 @@
 "use client";
 
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import FormField from "./FormField";
-import SubmitButton from "../helper/SubmitButton";
 import { addProductAction } from "@/lib/products/product-actions";
 
 const initialState = {
 	message: "",
-	errors: {},
+	errors: undefined,
 	success: false,
+};
+
+type FormState = {
+	success: boolean;
+	errors?: Record<string, string[]>;
+	message: string;
 };
 
 const SubmitForm = () => {
@@ -16,8 +21,24 @@ const SubmitForm = () => {
 		addProductAction,
 		initialState,
 	);
+	const { message, success, errors }: FormState = state;
 
-	const { message, success, errors } = state;
+	// Uncontrolled inputs always return empty string when the form is submitted. For preserve values, we need to control input values
+	const [formState, setFormState] = useState<Record<string, string>>({});
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+	) => {
+		setFormState((prev) => ({
+			...prev,
+			[e.target.name]: e.target.value,
+		}));
+	};
+	// Clear form values after successful submission
+	useEffect(() => {
+		if (success) {
+			setFormState({});
+		}
+	}, [success]);
 
 	return (
 		<form action={action} className="bg-muted p-6 rounded-lg shadow-md">
@@ -27,7 +48,8 @@ const SubmitForm = () => {
 				id="name"
 				placeholder="Enter your product name"
 				required={true}
-				onChange={() => {}}
+				onChange={handleChange}
+				value={formState.name || ""}
 				error={errors?.name || []}
 				helperText="This will be the title of your product listing."
 			/>
@@ -38,7 +60,8 @@ const SubmitForm = () => {
 				id="slug"
 				placeholder="my-product-slug"
 				required={true}
-				onChange={() => {}}
+				onChange={handleChange}
+				value={formState.slug || ""}
 				error={errors?.slug || []}
 				helperText="A unique slug will be used in the URL"
 			/>
@@ -49,7 +72,8 @@ const SubmitForm = () => {
 				id="tagline"
 				placeholder="Enter a catchy tagline for your product"
 				required={true}
-				onChange={() => {}}
+				onChange={handleChange}
+				value={formState.tagline || ""}
 				error={errors?.tagline || []}
 				helperText="A short and engaging tagline to describe your product."
 			/>
@@ -60,7 +84,8 @@ const SubmitForm = () => {
 				id="description"
 				placeholder="Describe your product in detail"
 				required={true}
-				onChange={() => {}}
+				onChange={handleChange}
+				value={formState.description || ""}
 				error={errors?.description || []}
 				helperText="Provide a detailed description."
 				textarea={true}
@@ -72,7 +97,8 @@ const SubmitForm = () => {
 				id="websiteUrl"
 				placeholder="https://www.yourproduct.com"
 				required={true}
-				onChange={() => {}}
+				onChange={handleChange}
+				value={formState.websiteUrl || ""}
 				error={errors?.websiteUrl || []}
 				helperText="The official website for your product."
 			/>
@@ -83,7 +109,8 @@ const SubmitForm = () => {
 				id="tags"
 				placeholder="AI, Productivity, SaaS"
 				required={true}
-				onChange={() => {}}
+				onChange={handleChange}
+				value={formState.tags || ""}
 				error={errors?.tags || []}
 				helperText="Comma-separated list of tags."
 			/>

@@ -11,8 +11,15 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 
-import { Show, SignUpButton, SignInButton, UserButton } from "@clerk/react";
+import {
+	Show,
+	SignUpButton,
+	SignInButton,
+	UserButton,
+	OrganizationSwitcher,
+} from "@clerk/react";
 import { Suspense } from "react";
+import CustomUserButton from "./CustomUserButton";
 
 const Header = () => {
 	const isSignedIn = false; // Placeholder for authentication state
@@ -47,6 +54,7 @@ const Header = () => {
 								</div>
 							}
 						>
+							{/* <OrganizationSwitcher /> */}
 							<Show when="signed-out">
 								<SignInButton />
 								<SignUpButton>
@@ -60,7 +68,9 @@ const Header = () => {
 										<span>Share Project</span>
 									</Button>
 								</Link>
-								<UserButton />
+								{/* <UserButton /> */}
+								<CustomUserButton />{" "}
+								{/* Custom user button with organization switcher and admin panel link */}
 							</Show>
 						</Suspense>
 					</div>

@@ -18,12 +18,22 @@ export async function addProductAction(
 	formData: FormData,
 ) {
 	try {
-		const { userId } = await auth();
+		const { userId, orgId } = await auth();
 
 		if (!userId) {
 			return {
 				success: false,
 				message: "You must be logged in to submit a product.",
+				errors: undefined,
+			};
+		}
+
+		if (!orgId) {
+			return {
+				success: false,
+				message:
+					"You must belong to an organization to submit a product. Please select an organization from your profile settings or create one if you don't have any.",
+				errors: undefined,
 			};
 		}
 
@@ -57,6 +67,7 @@ export async function addProductAction(
 			tags: tagsArray,
 
 			userId: userId,
+			organizationId: orgId,
 			submittedBy: userEmail,
 			status: "pending",
 		});
@@ -64,6 +75,7 @@ export async function addProductAction(
 		return {
 			success: true,
 			message: "Product submitted successfully! It will be reviewed shortly.",
+			errors: undefined,
 		};
 	} catch (error) {
 		// console.error("Error adding product:", error);
