@@ -6,6 +6,8 @@ import { productSchema } from "./validation-product";
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import z from "zod";
+import { revalidatePath } from "next/cache";
+import { eq, sql } from "drizzle-orm";
 
 type FormState = {
 	success: boolean;
@@ -102,3 +104,38 @@ export async function addProductAction(
 // 4. transform the form data to match the database schema
 // 5. create product in the database using drizzle-orm
 // 6. revalidate the path to show the new product in the list
+
+export const upvoteProductAction = async (productId: number) => {
+	try {
+		const { userId } = await auth();
+
+		if (!userId) {
+			console.log("User not signed in");
+			return {
+				success: false,
+				message: "You must be signed in to vote a product",
+			};
+		}
+
+		await db
+			.update(products)
+			.set({
+				voteCount: sql`GREATEST(0, vote_count + 1)`,
+			})
+			.where(eq(products.id, productId));
+
+		revalidatePath("/");
+
+		return {
+			success: true,
+			message: "Product upvoted successfully",
+		};
+	} catch (error) {
+		console.error(error);
+		return {
+			success: false,
+			message: "Failed to upvote product",
+			voteCount: 0,
+		};
+	}
+};

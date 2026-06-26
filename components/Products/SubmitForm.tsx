@@ -3,17 +3,13 @@
 import React, { useActionState, useEffect, useState } from "react";
 import FormField from "./FormField";
 import { addProductAction } from "@/lib/products/product-actions";
+import { FormState } from "@/types";
+import { cn } from "@/lib/utils";
 
-const initialState = {
-	message: "",
-	errors: undefined,
+const initialState: FormState = {
 	success: false,
-};
-
-type FormState = {
-	success: boolean;
-	errors?: Record<string, string[]>;
-	message: string;
+	errors: undefined,
+	message: "",
 };
 
 const SubmitForm = () => {
@@ -123,8 +119,25 @@ const SubmitForm = () => {
 				{pending ? "Submitting..." : "Submit"}
 			</button>
 
-			{success && <p className="text-green-500 mt-4">{message}</p>}
-			{success === false && <p className="text-red-500 mt-4">{message}</p>}
+			{message && (
+				<div
+					className={cn(
+						"p-3 rounded-lg border mt-2",
+						success
+							? "bg-primary/10 border-primary text-primary"
+							: "bg-destructive/10 border-destructive text-destructive",
+					)}
+					// Critical errors interrupt immediately; success messages wait politely / can be skipped
+					role={success ? "status" : "alert"}
+					aria-live={success ? "polite" : "assertive"}
+					aria-atomic="true"
+				>
+					{message}
+				</div>
+			)}
+
+			{/* {success && <p className="text-green-500 mt-4">{message}</p>}
+			{success === false && <p className="text-red-500 mt-4">{message}</p>} */}
 		</form>
 	);
 };

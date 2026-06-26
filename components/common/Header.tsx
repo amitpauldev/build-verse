@@ -22,7 +22,6 @@ import { Suspense } from "react";
 import CustomUserButton from "./CustomUserButton";
 
 const Header = () => {
-	const isSignedIn = false; // Placeholder for authentication state
 	return (
 		<header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 overflow-hidden">
 			<div className="wrapper px-12">

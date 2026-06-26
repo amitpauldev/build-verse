@@ -15,6 +15,7 @@ export async function getFeaturedProducts() {
 }
 
 export async function getAllProducts() {
+	"use cache";
 	const productsData = await db.select().from(products);
 	// .where(eq(products.status, "approved"));
 	return productsData;
@@ -34,4 +35,17 @@ export async function getRecentlyAddedProducts() {
 	);
 
 	return recentlyAddedProducts;
+}
+
+export async function getProductBySlug(slug: string) {
+	// "use cache";
+	const productData = await db
+		.select()
+		.from(products)
+		.where(eq(products.slug, slug))
+		.limit(1);
+
+	console.log(productData);
+
+	return productData?.[0] ?? null;
 }
