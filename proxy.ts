@@ -6,9 +6,9 @@ import { NextRequest, NextResponse } from "next/server";
 // Avoid creating an organization from middleware in the future.
 export default clerkMiddleware(async (auth, req) => {
 	// Redirect /about to /
-	// if (req.nextUrl.pathname === "/about") {
-	// 	return NextResponse.redirect(new URL("/", req.url));
-	// }
+	if (req.nextUrl.pathname === "/products") {
+		return NextResponse.redirect(new URL("/explore", req.url));
+	}
 	// If you want to match all nested routes:
 	// if (req.nextUrl.pathname.startsWith("/about")) {
 	// 	return NextResponse.json({
@@ -17,6 +17,23 @@ export default clerkMiddleware(async (auth, req) => {
 	// }
 
 	const { userId, orgId } = await auth();
+
+	// for admin route protection
+	if (req.nextUrl.pathname.startsWith("/admin")) {
+		if (!userId) {
+			return NextResponse.json({
+				message: "You must be signed in to view any secure page",
+			});
+		}
+		// const client = await clerkClient();
+		// const user = await client.users.getUser(userId);
+
+		// const isAdmin = user.publicMetadata?.isAdmin;
+
+		// if (!isAdmin) {
+		// 	return NextResponse.redirect(new URL("/", req.url));
+		// }
+	}
 
 	if (userId && !orgId) {
 		try {

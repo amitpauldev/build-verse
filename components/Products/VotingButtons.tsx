@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { upvoteProductAction } from "@/lib/products/product-actions";
 
 type VotingButtosProps = {
-	hasVoted: boolean;
+	hasVoted?: boolean;
 	voteCount: number;
 	productId: number;
 };

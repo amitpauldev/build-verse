@@ -1,5 +1,3 @@
-import React from "react";
-import page from "../page";
 import SectionHeader from "@/components/common/SectionHeader";
 import { CompassIcon } from "lucide-react";
 import { getAllProducts } from "@/lib/products/product-select";

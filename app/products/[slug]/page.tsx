@@ -34,15 +34,6 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 	return (
 		<div className="py-16">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				{/* Back Link */}
-				<Link
-					href="/explore"
-					className="inline-flex items-center gap-2 mb-8 text-secondary hover:text-primary transition-colors"
-				>
-					<ArrowLeftIcon className="w-4 h-4" />
-					Back to Explore
-				</Link>
-
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 					{/* Left Section */}
 					<div className="lg:col-span-2 space-y-8">
@@ -74,14 +65,14 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 						</div>
 
 						{/* Product Details */}
-						<div className="rounded-xl border border-gray-200 bg-background p-6">
+						<div className="rounded-xl border border-gray-200 bg-background text-gray-200 p-6">
 							<h2 className="text-lg font-semibold mb-5">Product Details</h2>
 
 							<div className="space-y-4">
 								<div className="flex items-center gap-3 text-sm">
 									<CalendarIcon className="w-4 h-4 text-gray-500" />
 									<span className="text-White">Launched:</span>
-									<span className="font-medium text-gray-900">
+									<span className="font-medium ">
 										{new Date(
 											product.createdAt?.toISOString() ?? "",
 										).toLocaleDateString()}
@@ -91,9 +82,7 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 								<div className="flex items-center gap-3 text-sm">
 									<UserIcon className="w-4 h-4 text-gray-500" />
 									<span className="text-white">Submitted by:</span>
-									<span className="font-medium text-gray-900">
-										{product.submittedBy}
-									</span>
+									<span className="font-medium">{product.submittedBy}</span>
 								</div>
 							</div>
 						</div>
@@ -109,10 +98,7 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 										Support this product
 									</p>
 
-									{/* <VotingButtons
-                productId={product.id}
-                voteCount={voteCount}
-              /> */}
+									<VotingButtons productId={product.id} voteCount={voteCount} />
 								</div>
 
 								{voteCount > 100 && (
