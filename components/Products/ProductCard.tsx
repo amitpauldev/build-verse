@@ -8,9 +8,9 @@ import {
 import { StarIcon } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
-import VotingButtons from "./VotingButtons";
 import { InferSelectModel } from "drizzle-orm";
 import { products } from "@/db/schema";
+import LikeButton from "./LikeButton";
 
 // type Props = {
 // 	id: number;
@@ -23,8 +23,15 @@ import { products } from "@/db/schema";
 
 type product = InferSelectModel<typeof products>;
 
-export default function ProductCard({ product }: { product: product }) {
-	const hasVoted = false;
+export default function ProductCard({
+	product,
+	initialLiked,
+}: {
+	product: product;
+	initialLiked: boolean;
+}) {
+	// const initialLiked = await getInitialLiked(product.id);
+
 	return (
 		<Link href={`/products/${product.slug}`}>
 			<Card className="group card-hover hover:bg-primary-foreground/10 border-solid border-gray-400 min-h-50">
@@ -45,10 +52,10 @@ export default function ProductCard({ product }: { product: product }) {
 							<CardDescription>{product.description}</CardDescription>
 						</div>
 						{/** Voting buttons */}
-						<VotingButtons
-							hasVoted={hasVoted}
-							voteCount={product.voteCount}
+						<LikeButton
+							initialLiked={initialLiked}
 							productId={product.id}
+							voteCount={product.voteCount}
 						/>
 					</div>
 				</CardHeader>

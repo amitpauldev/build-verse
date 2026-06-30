@@ -1,7 +1,6 @@
 "use server";
 
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { error } from "console";
 import { productSchema } from "./validation-product";
 import { db } from "@/db";
 import { products } from "@/db/schema";

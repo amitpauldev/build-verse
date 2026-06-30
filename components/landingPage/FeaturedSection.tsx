@@ -1,49 +1,18 @@
-"use cache";
-
 import SectionHeader from "../common/SectionHeader";
 import { ArrowUpRightIcon, StarIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import ProductCard from "../Products/ProductCard";
 import { getFeaturedProducts } from "@/lib/products/product-select";
-
-// const FeaturedProducts = [
-// 	{
-// 		id: 1,
-// 		title: "ParityKit",
-// 		description: "A tool for creating and sharing AI prompts",
-// 		tags: ["AI", "Prompts", "Tools"],
-// 		votes: 493,
-// 		isFeatured: true,
-// 	},
-// 	{
-// 		id: 2,
-// 		title: "ParityKit",
-// 		description: "A tool for creating and sharing AI prompts",
-// 		tags: ["AI", "Prompts", "Tools"],
-// 		votes: 493,
-// 		isFeatured: true,
-// 	},
-// 	{
-// 		id: 3,
-// 		title: "ParityKit",
-// 		description: "A tool for creating and sharing AI prompts",
-// 		tags: ["AI", "Prompts", "Tools"],
-// 		votes: 493,
-// 		isFeatured: true,
-// 	},
-// 	{
-// 		id: 4,
-// 		title: "ParityKit",
-// 		description: "A tool for creating and sharing AI prompts",
-// 		tags: ["AI", "Prompts", "Tools"],
-// 		votes: 493,
-// 		isFeatured: true,
-// 	},
-// ];
+import { getLikedProductIds } from "@/lib/likes/like-queries";
+import { auth } from "@clerk/nextjs/server";
 
 const FeaturedSection = async () => {
 	const FeaturedProducts = await getFeaturedProducts();
+
+	const { userId } = await auth();
+	const likedIds = userId ? await getLikedProductIds(userId) : [];
+
 	return (
 		<div className="py-20 bg-muted/20">
 			<div className="wrapper">
@@ -63,7 +32,11 @@ const FeaturedSection = async () => {
 
 				<div className="grid-wrapper">
 					{FeaturedProducts.map((product) => (
-						<ProductCard key={product.id} product={product} />
+						<ProductCard
+							key={product.id}
+							product={product}
+							initialLiked={likedIds.includes(product.id)}
+						/>
 					))}
 				</div>
 			</div>

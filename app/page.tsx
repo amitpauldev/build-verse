@@ -7,7 +7,16 @@ const Home = () => {
 	return (
 		<div>
 			<HeroSection />
-			<FeaturedSection />
+
+			<Suspense
+				fallback={
+					<div className="text-center py-20">
+						Loading recently launched products...
+					</div>
+				}
+			>
+				<FeaturedSection />
+			</Suspense>
 
 			<Suspense
 				fallback={

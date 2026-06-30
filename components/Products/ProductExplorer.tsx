@@ -13,7 +13,13 @@ import { products } from "@/db/schema";
 
 type ProductType = InferSelectModel<typeof products>;
 
-const ProductExplorer = ({ products }: { products: ProductType[] }) => {
+const ProductExplorer = ({
+	products,
+	likedIds,
+}: {
+	products: ProductType[];
+	likedIds: number[];
+}) => {
 	const [sortBy, setSortBy] = useState("all");
 	const [searchQuery, setSearchQuery] = useState("");
 
@@ -39,7 +45,6 @@ const ProductExplorer = ({ products }: { products: ProductType[] }) => {
 
 		return allProducts;
 	};
-
 	const filteredProducts = filteredProductsFunc();
 
 	return (
@@ -107,7 +112,11 @@ const ProductExplorer = ({ products }: { products: ProductType[] }) => {
 			{/* Products Grid */}
 			<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
 				{filteredProducts.map((product) => (
-					<ProductCard key={product.id} product={product} />
+					<ProductCard
+						key={product.id}
+						product={product}
+						initialLiked={likedIds.includes(product.id)}
+					/>
 				))}
 			</div>
 		</div>
