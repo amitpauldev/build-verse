@@ -45,7 +45,5 @@ export async function getProductBySlug(slug: string) {
 		.where(eq(products.slug, slug))
 		.limit(1);
 
-	console.log(productData);
-
 	return productData?.[0] ?? null;
 }

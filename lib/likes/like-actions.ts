@@ -5,12 +5,16 @@ import { db } from "@/db";
 
 import { and, eq, sql } from "drizzle-orm";
 import { productLikes, products } from "@/db/schema";
+import { revalidatePath } from "next/cache";
 
 export async function toggleLike(productId: number) {
 	const { userId } = await auth();
 
 	if (!userId) {
-		throw new Error("Unauthorized");
+		return {
+			liked: false,
+			error: "You must be signed in to like a product",
+		};
 	}
 
 	const [existingLike] = await db
@@ -35,8 +39,10 @@ export async function toggleLike(productId: number) {
 			})
 			.where(eq(products.id, productId));
 
+		revalidatePath("/explore");
 		return {
 			liked: false,
+			error: null,
 		};
 	}
 
@@ -53,7 +59,9 @@ export async function toggleLike(productId: number) {
 		})
 		.where(eq(products.id, productId));
 
+	revalidatePath("/explore");
 	return {
 		liked: true,
+		error: null,
 	};
 }

@@ -34,13 +34,15 @@ export default function LikeButton({
 			toggleOptimistic(null);
 
 			// Update the database
-			await toggleLike(productId);
+			const result = await toggleLike(productId);
+			// if user is not signed in
+			if (result.error) alert(result.error);
 		});
 	};
 
 	return (
 		<div
-			className="flex flex-col items-center gap-2 pl-2 border-l-2 border-gray-600"
+			className="flex flex-col items-center gap-2 pl-2 border-l-2 border-gray-400"
 			onClick={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -50,7 +52,7 @@ export default function LikeButton({
 				<Image
 					src={
 						optimisticState.liked
-							? "/love-svgrepo-com-white.svg"
+							? "/love-svgrepo-com-red.svg"
 							: "/love-svgrepo-com.svg"
 					}
 					width={34}
