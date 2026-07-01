@@ -1,6 +1,7 @@
 "use cache";
 
 import {
+	getAllProducts,
 	getFeaturedProducts,
 	getProductBySlug,
 } from "@/lib/products/product-select";
@@ -13,7 +14,7 @@ import {
 import { notFound } from "next/navigation";
 
 export const generateStaticParams = async () => {
-	const products = await getFeaturedProducts();
+	const products = await getAllProducts();
 	return products.map((product) => ({
 		slug: product.slug.toString(),
 	}));
