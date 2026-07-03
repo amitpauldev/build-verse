@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { productLikes } from "@/db/schema";
+import { productLikes, products } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 
 export async function hasUserLikedProduct(userId: string, productId: number) {
@@ -27,4 +27,15 @@ export async function getLikedProductIds(userId: string): Promise<number[]> {
 		.where(eq(productLikes.userId, userId));
 
 	return likedProducts.map((like) => like.productId); // [1, 5, 8,...]
+}
+
+export async function getLikedProducts(userId: string) {
+	return await db
+		.select({
+			product: products,
+			likedAt: productLikes.createdAt,
+		})
+		.from(productLikes)
+		.innerJoin(products, eq(productLikes.productId, products.id))
+		.where(eq(productLikes.userId, userId));
 }

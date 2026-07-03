@@ -16,15 +16,15 @@ const FeaturedSection = async () => {
 	return (
 		<div className="py-20 bg-muted/20">
 			<div className="wrapper">
-				<div className="flex items-center justify-between mb-8">
+				<div className="flex items-center justify-between mb-2 md:mb-8">
 					<SectionHeader
 						title="Featured Projects"
 						icon={StarIcon}
 						description="Top picks from our community this week"
 					/>
 					<Link href="/explore">
-						<Button variant="outline" className="hidden sm:flex">
-							See All
+						<Button variant="outline">
+							<span className="hidden sm:flex">See All</span>
 							<ArrowUpRightIcon className="size-4 ml-2" />
 						</Button>
 					</Link>

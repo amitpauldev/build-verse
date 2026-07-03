@@ -54,7 +54,7 @@ const HeroSection = () => {
 				<div className="flex flex-col items-center justify-center py-12 lg:py-24 text-center">
 					<LiveBadge />
 
-					<h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 max-w-5xl">
+					<h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 max-w-5xl">
 						Show What You've <span className="gradient-text">Built</span>
 						, <br />
 						Discover What's{" "}
