@@ -1,8 +1,7 @@
 ## Next I have to do:
 
-- WishList option in the navbar
 - Mobile Navbar
-- Skeliton
+- Skeliton ✔
 - Admin action
 - good understanding
 

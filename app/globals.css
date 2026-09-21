@@ -85,6 +85,16 @@
 	--ring: oklch(0.61 0.22 275);
 } */
 
+@theme {
+	/* productsSkeleton */
+	--animate-shimmer: shimmer 1s infinite;
+	@keyframes shimmer {
+		100% {
+			transform: translateX(100%);
+		}
+	}
+}
+
 @theme inline {
 	--color-sidebar-ring: var(--sidebar-ring);
 
