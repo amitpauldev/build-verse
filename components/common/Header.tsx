@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import Logo from "./Logo";
-import { CompassIcon, HeartIcon, HomeIcon, Menu, X } from "lucide-react";
+import {
+	CompassIcon,
+	HeartIcon,
+	HomeIcon,
+	Menu,
+	PackageIcon,
+	X,
+} from "lucide-react";
 import LogInSignUp from "../helper/LogInSignUp";
 import { Suspense, useState } from "react";
 import { Skeleton } from "../skeleton/ProductsSkeleton";
@@ -22,6 +29,11 @@ const navItems = [
 		href: "/wishlist",
 		icon: <HeartIcon className="size-4" />,
 		label: "Wishlist",
+	},
+	{
+		href: "/my-products",
+		icon: <PackageIcon className="size-4" />,
+		label: "My Products",
 	},
 ];
 
@@ -43,7 +55,7 @@ const Header = () => {
 					<Logo />
 
 					{/* Desktop nav */}
-					<div className="hidden md:flex items-center gap-1 flex-wrap">
+					<div className="hidden md:flex items-center gap-1">
 						{navItems.map((item) => (
 							<Link
 								key={item.href}

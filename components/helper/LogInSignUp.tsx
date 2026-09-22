@@ -25,7 +25,7 @@ const LogInSignUp = () => {
 				</SignUpButton>
 			</Show>
 			<Show when="signed-in">
-				<Link href="submit" className="hidden sm:flex">
+				<Link href="submit" className="hidden lg:flex">
 					<Button variant="outline" size="sm">
 						<SparklesIcon className="size-4 mr-2" />
 						<span>Share Project</span>

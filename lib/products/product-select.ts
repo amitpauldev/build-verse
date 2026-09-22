@@ -37,6 +37,17 @@ export async function getRecentlyAddedProducts() {
 	return recentlyAddedProducts;
 }
 
+// this code
+export async function getUserProducts(userId: string) {
+	await connection();
+
+	return db
+		.select()
+		.from(products)
+		.where(eq(products.userId, userId))
+		.orderBy(desc(products.createdAt));
+}
+
 export async function getProductBySlug(slug: string) {
 	// "use cache";
 	const productData = await db
