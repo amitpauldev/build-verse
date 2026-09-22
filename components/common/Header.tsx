@@ -58,7 +58,7 @@ const Header = () => {
 
 					{/* Mobile nav */}
 					<div
-						className={`absolute z-50 h-screen right-0 top-0 w-full bg-black/30 md:hidden transition-all duration-300 ${
+						className={`fixed z-50 h-screen right-0 top-0 w-full bg-black/30 md:hidden transition-all duration-300 ${
 							showNav
 								? "translate-x-0 opacity-100 visible"
 								: "translate-x-full opacity-0 invisible"
@@ -66,7 +66,7 @@ const Header = () => {
 						onClick={closeNav}
 					/>
 					<div
-						className={`absolute z-50 h-screen right-0 top-0 border-b bg-background md:hidden transition-all duration-500 ${
+						className={`fixed z-50 h-screen right-0 top-0 border-b bg-background md:hidden transition-transform duration-500 ${
 							showNav
 								? "translate-x-0 opacity-100 visible"
 								: "translate-x-full opacity-0 invisible"
