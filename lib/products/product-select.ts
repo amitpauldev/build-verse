@@ -1,9 +1,14 @@
 import { db } from "@/db";
 import { products } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
+import { cacheLife, cacheTag } from "next/cache";
 import { connection } from "next/server";
 
 export async function getFeaturedProducts() {
+	"use cache";
+	cacheLife("days");
+	cacheTag("featured-products");
+
 	const productsData = await db
 		.select()
 		.from(products)
@@ -16,8 +21,12 @@ export async function getFeaturedProducts() {
 
 export async function getAllProducts() {
 	"use cache";
+	cacheLife("weeks");
+	cacheTag("get-all-products");
+
 	const productsData = await db.select().from(products);
 	// .where(eq(products.status, "approved"));
+
 	return productsData;
 }
 
@@ -33,6 +42,8 @@ export async function getRecentlyAddedProducts() {
 			product.createdAt &&
 			new Date(product.createdAt.toISOString()) >= oneWeekAgo,
 	);
+
+	console.log("get-recently fatching from database...");
 
 	return recentlyAddedProducts;
 }

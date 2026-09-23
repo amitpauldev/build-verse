@@ -4,7 +4,7 @@ import { useOptimistic, useTransition } from "react";
 import { Button } from "../ui/button";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { upvoteProductAction } from "@/lib/products/product-actions";
+// import { upvoteProductAction } from "@/lib/products/product-actions";
 
 type VotingButtosProps = {
 	hasVoted?: boolean;
@@ -27,7 +27,7 @@ const VotingButtons = ({
 	const handleUpvote = async () => {
 		startTransition(async () => {
 			setOptimisticVoteCount(1);
-			await upvoteProductAction(productId);
+			// await upvoteProductAction(productId);
 		});
 	};
 

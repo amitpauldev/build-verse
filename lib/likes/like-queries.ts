@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { productLikes, products } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
+import { cacheLife, cacheTag } from "next/cache";
 
 export async function hasUserLikedProduct(userId: string, productId: number) {
 	const [like] = await db
@@ -19,6 +20,10 @@ export async function hasUserLikedProduct(userId: string, productId: number) {
 
 // this helps us get all the product ids that a user has liked
 export async function getLikedProductIds(userId: string): Promise<number[]> {
+	"use cache";
+	cacheLife("days");
+	cacheTag(`your-liked-products-${userId}`);
+
 	const likedProducts = await db
 		.select({
 			productId: productLikes.productId,
@@ -30,6 +35,10 @@ export async function getLikedProductIds(userId: string): Promise<number[]> {
 }
 
 export async function getLikedProducts(userId: string) {
+	"use cache";
+	cacheLife("days");
+	cacheTag(`liked-products-${userId}`);
+
 	return await db
 		.select({
 			product: products,

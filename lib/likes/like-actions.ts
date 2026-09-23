@@ -5,7 +5,7 @@ import { db } from "@/db";
 
 import { and, eq, sql } from "drizzle-orm";
 import { productLikes, products } from "@/db/schema";
-import { revalidatePath } from "next/cache";
+import { updateTag } from "next/cache";
 
 export async function toggleLike(productId: number) {
 	const { userId } = await auth();
@@ -39,7 +39,10 @@ export async function toggleLike(productId: number) {
 			})
 			.where(eq(products.id, productId));
 
-		revalidatePath("/explore");
+		updateTag(`liked-products-${userId}`);
+		updateTag(`your-liked-products-${userId}`);
+		updateTag("get-all-products");
+		updateTag("featured-products");
 		return {
 			liked: false,
 			error: null,
@@ -59,7 +62,10 @@ export async function toggleLike(productId: number) {
 		})
 		.where(eq(products.id, productId));
 
-	revalidatePath("/explore");
+	updateTag(`liked-products-${userId}`);
+	updateTag(`your-liked-products-${userId}`);
+	updateTag("get-all-products");
+	updateTag("featured-products");
 	return {
 		liked: true,
 		error: null,
