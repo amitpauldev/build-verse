@@ -3,24 +3,42 @@
 import { CheckCircleIcon, XCircleIcon } from "lucide-react";
 import { InferSelectModel } from "drizzle-orm";
 import { products } from "@/db/schema";
+import { useTransition } from "react";
+import { approveProduct, rejectProduct } from "@/lib/products/admin-actions";
 
 type ProductType = InferSelectModel<typeof products>;
 
 export default function AdminActions({
 	status,
 	productId,
+	onActionSuccess,
 }: {
 	status: string;
 	productId: ProductType["id"];
+	onActionSuccess?: (newStatus: "approved" | "rejected") => void;
 }) {
+	const [isPending, startTransition] = useTransition();
+
 	const handleApprove = async () => {
-		console.log("Approve");
-		// await approveProductAction(productId);
+		startTransition(async () => {
+			const result = await approveProduct(productId);
+			if (result.success) {
+				onActionSuccess?.("approved");
+			} else {
+				console.error(result.message);
+			}
+		});
 	};
 
 	const handleReject = async () => {
-		console.log("Reject");
-		// await rejectProductAction(productId);
+		startTransition(async () => {
+			const result = await rejectProduct(productId);
+			if (result.success) {
+				onActionSuccess?.("rejected");
+			} else {
+				console.error(result.message);
+			}
+		});
 	};
 
 	if (status !== "pending") return null;
@@ -31,7 +49,8 @@ export default function AdminActions({
 				<button
 					type="button"
 					onClick={handleApprove}
-					className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-black px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 dark:bg-white dark:text-black"
+					disabled={isPending}
+					className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-black px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 dark:bg-white dark:text-black disabled:opacity-50"
 				>
 					<CheckCircleIcon className="h-4 w-4" />
 					Approve
@@ -40,7 +59,8 @@ export default function AdminActions({
 				<button
 					type="button"
 					onClick={handleReject}
-					className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+					disabled={isPending}
+					className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-700 disabled:opacity-50"
 				>
 					<XCircleIcon className="h-4 w-4" />
 					Reject

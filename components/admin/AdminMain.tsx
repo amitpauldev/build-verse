@@ -7,15 +7,30 @@ import { InboxIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
 
 const AdminMain = ({ products }: { products: ProductType[] }) => {
+	const [productsList, setProductsList] = useState(products);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [sortBy, setSortBy] = useState("pending");
 
-	const pendingProducts = products.filter(
+	const pendingProducts = productsList.filter(
 		(product) => product.status === "pending",
 	);
 
+	const handleStatusChange = (productId: number, newStatus: string) => {
+		setProductsList((prev) =>
+			prev.map((product) =>
+				product.id === productId ? { ...product, status: newStatus } : product,
+			),
+		);
+	};
+
+	const handleDeleteProduct = (productId: number) => {
+		setProductsList((prev) =>
+			prev.filter((product) => product.id !== productId),
+		);
+	};
+
 	const filteredProducts = () => {
-		const allProducts = [...products];
+		const allProducts = [...productsList];
 		if (searchQuery.length > 0) {
 			return allProducts.filter((product) =>
 				product.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -35,7 +50,6 @@ const AdminMain = ({ products }: { products: ProductType[] }) => {
 	return (
 		<div className="flex flex-col gap-4 mt-5">
 			<div className="flex flex-col md:flex-row gap-2">
-				{/* Search Bar */}
 				<div className="relative flex-1">
 					<SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-300" />
 
@@ -49,7 +63,6 @@ const AdminMain = ({ products }: { products: ProductType[] }) => {
 				</div>
 
 				<div className="flex gap-2">
-					{/* Sort Buttons */}
 					<button
 						onClick={() => setSortBy("pending")}
 						className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium cursor-pointer transition ${
@@ -68,7 +81,7 @@ const AdminMain = ({ products }: { products: ProductType[] }) => {
 								: "border border-gray-300 bg-gray-900 text-white hover:bg-black"
 						}`}
 					>
-						All Products ({products.length})
+						All Products ({productsList.length})
 					</button>
 				</div>
 			</div>
@@ -76,7 +89,12 @@ const AdminMain = ({ products }: { products: ProductType[] }) => {
 			{filteredProducts().length > 0 ? (
 				<div className="space-y-4">
 					{filteredProducts().map((product) => (
-						<AdminProductCard key={product.id} product={product} />
+						<AdminProductCard
+							key={product.id}
+							product={product}
+							onStatusChange={handleStatusChange}
+							onDelete={handleDeleteProduct}
+						/>
 					))}
 				</div>
 			) : (
